@@ -1,0 +1,8 @@
+numpy
+pillow
+cython
+shapely
+opnecv-python
+pytorch>=1.2
+torchvision>=0.4
+tensorboard>=2.2
