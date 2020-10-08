@@ -12,10 +12,6 @@ This is the repository of paper **Single-Stage Rotation-Decoupled Detector for O
 
 We optimized the anchor-based oriented object detection method by decoupling the matching of the oriented bounding box and the oriented anchor into the matching of the horizontal bounding box and the horizontal anchor.
 
-## Pipeline
-
-<img src="demo/FPN.png" alt="FPN" style="zoom: 50%;" />
-
 ## Performance
 
 #### DOTA1.0 (Task1)
