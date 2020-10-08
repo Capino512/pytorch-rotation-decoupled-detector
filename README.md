@@ -1,6 +1,6 @@
 # Single-Stage Rotation-Decoupled Detector for Oriented Object
 
-This is the repository of paper **Single-Stage Rotation-Decoupled Detector for Oriented Object**. [[Paper]](https://www.mdpi.com/2072-4292/12/19/3262) [[PDF]](https://www.mdpi.com/2072-4292/12/19/3262/pdf)
+This is the repository of paper **Single-Stage Rotation-Decoupled Detector for Oriented Object**. [[Paper]](https://www.mdpi.com/2072-4292/12/19/3262/htm) [[PDF]](https://www.mdpi.com/2072-4292/12/19/3262/pdf)
 
 **Tips:**  The currently published code is untested, for preview only, and may be updated in the future.
 
