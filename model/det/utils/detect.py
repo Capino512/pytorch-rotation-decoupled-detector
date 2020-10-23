@@ -17,7 +17,7 @@ def detect(pred_cls, pred_loc, anchors, variance, conf_thresh, nms_thresh, top_k
     labels = indexes_cls
 
     start = 0
-    dets = []
+    dets = [None] * pred_cls.size(0)
     for image_id, n in sorted(Counter(indexes_img.tolist()).items()):
         loc = bboxes[start: start + n]
         conf = scores[start: start + n]

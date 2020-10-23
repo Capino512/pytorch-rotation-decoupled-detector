@@ -13,7 +13,7 @@ from ..utils.init import weight_init
 weights = {
     'darknet21': os.path.join(DIR_WEIGHT, 'darknet', 'darknet21.pth'),
     'darknet53': os.path.join(DIR_WEIGHT, 'darknet', 'darknet53.pth'),
-    'darknet53-coco': os.path.join(DIR_WEIGHT, 'darknet', 'darknet53-coco.pth'),
+    'darknet53-coco': os.path.join(DIR_WEIGHT, 'darknet', 'darknet53-coco.pth'),  # from YOLO-v3
 }
 
 
