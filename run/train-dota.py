@@ -40,7 +40,9 @@ def main():
     eta_interval = 10
 
     image_size = 768
-    aug = Compose([ops.PhotometricDistort(),
+    aug = Compose([
+        ops.ToFloat(),
+        ops.PhotometricDistort(),
                    ops.RandomHFlip(),
                    ops.RandomVFlip(),
                    ops.RandomRotate90(),
@@ -49,7 +51,7 @@ def main():
                    ops.Resize(image_size),
                    ops.BboxFilter(24 * 24 * 0.4)
                    ])
-    dataset = DetDataset([flist_train, flist_val], names, aug)
+    dataset = DetDataset(image_sets, names, aug)
     loader_train = DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=True, drop_last=True, collate_fn=dataset.collate)
     num_classes = len(dataset.names)
 
@@ -130,11 +132,12 @@ if __name__ == '__main__':
              'storage-tank', 'swimming-pool', 'tennis-court']
 
     devices = [0, 1]
-    backbone = resnet.resnest101
+    backbone = resnet.resnet101
     dir_save = './output'
 
     flist_train = '<replace with your local path>'
     flist_val = '<replace with your local path>'
+    image_sets = [flist_train, flist_val]
 
     os.environ["CUDA_VISIBLE_DEVICES"] = ','.join([str(device) for device in devices])
     devices = list(range(len(devices)))

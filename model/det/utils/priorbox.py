@@ -29,7 +29,7 @@ class PriorBox:
     @staticmethod
     def __get_anchors_grid_xywh(cfg, iw, ih):
         anchors, base_anchors = [], []
-        for stride, size, scales, aspects, angles in zip(cfg['stride'], cfg['size'], cfg['scales'], cfg['aspects'], cfg['angles']):
+        for stride, size, scales, aspects in zip(cfg['stride'], cfg['size'], cfg['scales'], cfg['aspects']:
             assert iw % stride == 0 and ih % stride == 0
             fmw, fmh = iw // stride, ih // stride
             _anchors = []
