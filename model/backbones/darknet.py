@@ -39,7 +39,7 @@ class Backbone(xnn.Module):
         self.name = name
         self.fetch_feature = fetch_feature
         self.head = CBR(32, kernel_size=3, stride=1, padding=1)
-        self.layers = xnn.ModuleList([self._make_layer(64 * 2 ** i, blocks) for i, blocks in layers])
+        self.layers = xnn.ModuleList([self._make_layer(64 * 2 ** i, blocks) for i, blocks in enumerate(layers)])
 
     @staticmethod
     def _make_layer(plane, blocks):
