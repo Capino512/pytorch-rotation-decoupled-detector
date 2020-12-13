@@ -7,6 +7,7 @@ try:
     from .ext.rbbox_overlap_gpu import rbbox_iou as rbbox_iou_gpu
     from .ext.rbbox_overlap_gpu import rbbox_nms as rbbox_nms_gpu
 
+
     def rbbox_iou(boxes1, boxes2, device=0):  # [x, y, w, h, a]
         boxes1 = boxes1.reshape([-1, 5]).astype(np.float32)
         boxes2 = boxes2.reshape([-1, 5]).astype(np.float32)

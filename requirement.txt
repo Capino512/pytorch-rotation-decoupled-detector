@@ -1,7 +1,8 @@
+tqdm
 numpy
 pillow
 cython
-shapely
+beautifulsoup4
 opnecv-python
 pytorch>=1.2
 torchvision>=0.4

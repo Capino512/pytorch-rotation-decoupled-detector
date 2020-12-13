@@ -1,27 +1,35 @@
-
+# -*- coding: utf-8 -*-
+# File   : containers.py
+# Author : Kai Ao
+# Email  : capino627@163.com
+# Date   : 2020/12/12 12:07
+#
+# This file is part of Rotation-Decoupled Detector.
+# https://github.com/Capino512/pytorch-rotation-decoupled-detector
+# Distributed under MIT License.
 
 import torch
 
 from torch import nn
 
 
-__all__ = ['Module', 'ModuleAtom', 'ModulePipe', 'Sequential', 'ModuleList', 'ModuleDict']
+__all__ = ['Module', 'ModuleAtom', 'ModulePipe', 'Sequential']
 
 
 class Module(nn.Module):
     def __init__(self):
         super(Module, self).__init__()
 
-    def build(self, *inputs, shape=None, **kwargs):
-        if shape is not None:
-            inputs = (torch.randn(shape),)
-        return self(*inputs, **kwargs)
-
-    def __call__(self, *inputs, **kwargs):
-        return self.forward(*inputs, **kwargs)
-
-    def forward(self, *inputs, **kwargs):
+    def forward(self, *args, **kwargs):
         raise NotImplementedError
+
+    def __call__(self, *args, **kwargs):
+        return self.forward(*args, **kwargs)
+
+    def build_pipe(self, shape):
+        return self(torch.randn(shape))
+
+    build = __call__
 
 
 class ModuleAtom(Module):
@@ -31,13 +39,13 @@ class ModuleAtom(Module):
         self.kwargs = kwargs
         self.module = None
 
-    def _init_module(self, *inputs, **kwargs):
+    def _init_module(self, *args, **kwargs):
         raise NotImplementedError
 
-    def forward(self, *inputs, **kwargs):
+    def forward(self, *args, **kwargs):
         if self.module is None:
-            self._init_module(*inputs, **kwargs)
-        return self.module(*inputs, **kwargs)
+            self._init_module(*args, **kwargs)
+        return self.module(*args, **kwargs)
 
 
 class ModulePipe(Module):
@@ -53,13 +61,3 @@ class ModulePipe(Module):
 class Sequential(nn.Sequential, Module):
     def __init__(self, *args):
         super(Sequential, self).__init__(*args)
-
-
-class ModuleList(nn.ModuleList, Module):
-    def __init__(self, modules=None):
-        super(ModuleList, self).__init__(modules)
-
-
-class ModuleDict(nn.ModuleDict, Module):
-    def __init__(self, modules=None):
-        super(ModuleDict, self).__init__(modules)

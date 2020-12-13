@@ -10,10 +10,11 @@ from torch import nn
 from xtorch import xnn
 
 model = xnn.Sequential(xnn.Linear(16), nn.ReLU(), xnn.Linear(2))
-# <==> model = nn.Sequential(nn.Linear(8, 16), nn.ReLU(), xnn.Linear(16, 2))
+# <===> nn.Sequential(nn.Linear(8, 16), nn.ReLU(), xnn.Linear(16, 2))
 
-model.build(shape=[2, 8])
- # model.build(torch.randn(2, 8))  # alternative 
+model.build_pipe(shape=[2, 8])
+ # alternative 
+ # model.build(torch.randn(2, 8))
 
 x = torch.randn(32, 8)
 y = model(x)

@@ -7,9 +7,10 @@ try:
     from .ext.rbbox_overlap_gpu import rbbox_iou as rbbox_iou_gpu
     from .ext.rbbox_overlap_gpu import rbbox_nms as rbbox_nms_gpu
 
+
     def rbbox_iou(boxes1, boxes2, device=None):  # [x, y, w, h, a]
         if device is None:
-            device = boxes1.device.index
+            device = 0 if boxes1.device.type == 'cpu' else boxes1.device.index
         boxes1 = boxes1.reshape([-1, 5]).detach().cpu().numpy().astype(np.float32)
         boxes2 = boxes2.reshape([-1, 5]).detach().cpu().numpy().astype(np.float32)
         ious = rbbox_iou_gpu(boxes1, boxes2, device)
@@ -17,7 +18,7 @@ try:
 
     def rbbox_nms(boxes, scores, iou_thresh=0.5, device=None):
         if device is None:
-            device = boxes.device.index
+            device = 0 if boxes.device.type == 'cpu' else boxes.device.index
         boxes = boxes.reshape([-1, 5]).detach().cpu().numpy().astype(np.float32)
         scores = scores.reshape([-1, 1]).detach().cpu().numpy().astype(np.float32)
         boxes = np.c_[boxes, scores]
