@@ -52,7 +52,7 @@ def calc_loss_v1(pred_cls, pred_loc, targets, anchors, iou_thresh, variance, bal
             labels = one_hot(labels, num_classes=num_classes).float()
             labels[mask_neg] = 0
             loss_cls_ = criterion_cls(pred_cls[i], labels)
-            loss_cls = loss_cls + loss_cls_[mask_pos].sum() * weight_pos + loss_cls_[mask_neg].sum() * weight_pos
+            loss_cls = loss_cls + loss_cls_[mask_pos].sum() * weight_pos + loss_cls_[mask_neg].sum() * weight_neg
             loss_loc = loss_loc + criterion_loc(gt_bboxes, det_bboxes)
             num_pos += mask_pos.sum().item()
         else:
