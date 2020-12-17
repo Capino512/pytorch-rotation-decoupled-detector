@@ -21,6 +21,7 @@ from collections import defaultdict
 from torch.utils.data import DataLoader
 
 from data.aug import ops
+from data.aug.compose import Compose
 from data.dataset import DOTA
 
 from model.rdd import RDD
@@ -44,8 +45,8 @@ def main():
     num_workers = 4
 
     image_size = 768
-    aug = ops.Resize(image_size)
-    dataset = DOTA(dir_dataset, 'test', aug)
+    aug = Compose([ops.PadSquare(), ops.Resize(image_size)])
+    dataset = DOTA(dir_dataset, image_set, aug)
     loader = DataLoader(dataset, batch_size, num_workers=num_workers, pin_memory=True, collate_fn=dataset.collate)
     num_classes = len(dataset.names)
 
@@ -85,8 +86,11 @@ def main():
                 labels = labels.cpu().numpy()
                 fname, x, y, w, h = os.path.splitext(os.path.basename(info['img_path']))[0].split('-')[:5]
                 x, y, w, h = int(x), int(y), int(w), int(h)
+                long_edge = max(w, h)
+                pad_x, pad_y = (long_edge - w) // 2, (long_edge - h) // 2
                 bboxes = np.array([xywha2xy4(bbox) for bbox in bboxes])
-                bboxes *= [w / image_size, h / image_size]
+                bboxes *= long_edge / image_size
+                bboxes -= [pad_x, pad_y]
                 bboxes += [x, y]
                 bboxes = np.array([xy42xywha(bbox) for bbox in bboxes])
                 ret_raw[fname].append([bboxes, scores, labels])
@@ -128,5 +132,6 @@ if __name__ == '__main__':
     dir_dataset = '<replace with your local path>'
     dir_save = '<replace with your local path>'
     checkpoint = None
+    image_set = 'test'  # test-768
 
     main()

@@ -52,6 +52,8 @@ class Resize:
             ih, iw = img.shape[:2]
             rw, rh = self.size
             anno['bboxes'] *= [rw / iw, rh / ih]
+            # Convert to rectangle, if not it should not affect much
+            anno['bboxes'] = np.array([cv.boxPoints(cv.minAreaRect(bbox)) for bbox in anno['bboxes']])
         img = resize(img, self.size, self.interpolate)
         return img, anno
 
@@ -221,7 +223,7 @@ class Rotate:
                 bboxes.append(corner)
                 labels.append(label)
             if bboxes:
-                anno['bboxes'] = np.stack(bboxes)
+                anno['bboxes'] = np.stack(bboxes).astype(np.float32)
                 anno['labels'] = np.stack(labels)
             else:
                 anno = None
@@ -254,7 +256,7 @@ class RandomRotate90:
                 anno['bboxes'][:, :, 1] = ih - 1 - anno['bboxes'][:, :, 1]
                 anno['bboxes'] = anno['bboxes'][:, :, [1, 0]]
             if k == 2:
-                anno['bboxes'] = [iw - 1, ih - 1] - anno['bboxes']
+                anno['bboxes'] = ([iw - 1, ih - 1] - anno['bboxes']).astype(np.float32)
             if k == 3:
                 anno['bboxes'][:, :, 0] = iw - 1 - anno['bboxes'][:, :, 0]
                 anno['bboxes'] = anno['bboxes'][:, :, [1, 0]]
@@ -319,7 +321,7 @@ class RandomCrop:
                     bboxes = np.array([inter for inter, m in zip(intersections, mask) if m])
                     bboxes = np.concatenate([bboxes, np.ones_like(bboxes[:, :, [0]])], axis=-1)
                     bboxes = np.matmul(m, bboxes.transpose([0, 2, 1])).transpose([0, 2, 1])
-                    anno['bboxes'] = bboxes
+                    anno['bboxes'] = bboxes.astype(np.float32)
                     anno['labels'] = anno['labels'][mask]
                 else:
                     if self.nonempty:

@@ -2,7 +2,7 @@
 
 This is the repository of paper **Single-Stage Rotation-Decoupled Detector for Oriented Object**. [[Paper]](https://www.mdpi.com/2072-4292/12/19/3262/htm) [[PDF]](https://www.mdpi.com/2072-4292/12/19/3262/pdf)
 
-**Update:**  Updated the code for training on the DOTA, HRSC2016 and UCAS-AOD datasets. The test results on the HRSC2016 and UCAS-AOD datasets are very close to the results reported in our paper. Testing on the DOTA dataset is in progress.
+**Update:**  Updated the code for training on the DOTA, HRSC2016 and UCAS-AOD datasets. Uploaded the weights trained on these datasets.
 
 <img src="demo/graphical-abstract.png" alt="Graphical Abstract" style="zoom: 50%;" />
 
@@ -122,7 +122,29 @@ REPO_ROOT$ python run/dota/evaluate.py
 
 #### Checkpoint
 
-upcoming...
+[baiduyun](https://pan.baidu.com/s/1YrsWWbmk9M6fokDWbfSy3A) (fetch code: v9lc)
+
+DOTA Evaluation Results Feedback of Task1:
+
+```
+mAP: 0.7766109672861334
+ap of each class: 
+plane:0.8888609925261628, 
+baseball-diamond:0.8456303462596487, 
+bridge:0.5064668242818495, 
+ground-track-field:0.7351277450211415, 
+small-vehicle:0.7732537842825832, 
+large-vehicle:0.799801457421955, 
+ship:0.8712169619072521, 
+tennis-court:0.907144940135526, 
+basketball-court:0.8669519637928361, 
+storage-tank:0.8683680158282616, 
+soccer-ball-field:0.6389075531795416, 
+roundabout:0.6709768675043991, 
+harbor:0.770776576186568, 
+swimming-pool:0.7825762086410019, 
+helicopter:0.7231042723232747
+```
 
 ### Train on HRSC2016
 
@@ -156,6 +178,12 @@ car: 95.17266104678446
 plane: 98.56249539995756
 mAP: 96.867578223371
 ```
+
+## To Do
+
+Update the test results of the HRSC2016 using VOC2007 evaluation metric.
+
+Thanks to [ming71](https://github.com/ming71) for reminding me that the comparison in our paper did not distinguish between VOC2007 and VOC2012 metric.
 
 ## Citation
 

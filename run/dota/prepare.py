@@ -40,7 +40,7 @@ def txt2json(dir_txt, dir_json):
             json.dump(objs, open(os.path.join(dir_json, file.replace('txt', 'json')), 'wt'), indent=2)
 
 
-def main(image_set):
+def main(image_set, single_scale=False):
     # (1)
     if image_set != 'test':
         dir_txt = os.path.join(dir_dataset, 'labelTxt', image_set)
@@ -56,12 +56,13 @@ def main(image_set):
             anno = None
         pairs.append([img, anno])
 
+    overlap = 0.25
+    sizes = [768] if single_scale else [512, 768, 1024, 1536]
+    save_empty = image_set == 'test'
+    image_set = f'{image_set}-{sizes[0]}' if single_scale else image_set
+
     out_dir_images = os.path.join(dir_dataset, 'images', f'{image_set}-crop')
     out_dir_annos = os.path.join(dir_dataset, 'annotations', f'{image_set}-crop')
-
-    sizes = [512, 768, 1024, 1536]
-    overlap = 0.25
-    save_empty = image_set == 'test'
 
     cropper = Cropper(sizes, overlap)
     cropper.crop_batch(pairs, out_dir_images, out_dir_annos, save_empty)
@@ -99,3 +100,4 @@ if __name__ == '__main__':
     main('train')
     main('val')
     main('test')
+    main('test', True)

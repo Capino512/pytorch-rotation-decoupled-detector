@@ -22,7 +22,7 @@ from .image import imread, imwrite
 
 class Cropper:
     def __init__(self, size, overlap):
-        self.sizes = [size] if isinstance(size, int) else size
+        self.sizes = sorted([size] if isinstance(size, int) else size)
         self.overlap = overlap
 
     @staticmethod
@@ -50,9 +50,9 @@ class Cropper:
         ih, iw = img.shape[:2]
         name = os.path.splitext(os.path.basename(path_img))[0]
         anno = [] if path_anno is None else json.load(open(path_anno))
-        for size in self.sizes:
-            if min(iw, ih) < size * 0.75:
-                continue
+        for i, size in enumerate(self.sizes):
+            if i > 0 and (max if save_empty else min)(iw, ih) < self.sizes[i - 1]:
+                break
             stride = int(size * (1 - self.overlap))
             for x in range(0, iw, stride):
                 for y in range(0, ih, stride):
