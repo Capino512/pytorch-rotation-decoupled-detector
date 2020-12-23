@@ -15,6 +15,8 @@ sys.path.append('.')
 import os
 import tqdm
 import torch
+import cv2 as cv
+import numpy as np
 
 from torch.utils.data import DataLoader
 
@@ -24,6 +26,7 @@ from data.dataset import HRSC2016
 from model.rdd import RDD
 from model.backbone import resnet
 
+from utils.box.bbox_np import xy42xywha, xywha2xy4
 from utils.box.metric import get_det_aps
 from utils.parallel import CustomDetDataParallel
 
@@ -38,7 +41,7 @@ def main():
         checkpoint = os.path.join(dir_weight, '%d.pth' % current_step)
 
     image_size = 768
-    batch_size = 16
+    batch_size = 32
     num_workers = 4
 
     aug = ops.Resize(image_size)
@@ -51,15 +54,16 @@ def main():
         'sizes': [3] * 5,
         'aspects': [[1.5, 3, 5, 8]] * 5,
         'scales': [[2 ** 0, 2 ** (1 / 3), 2 ** (2 / 3)]] * 5,
+        'old_version': old_version
     }
     conf_thresh = 0.01
-    nms_thresh = 0.5
+    nms_thresh = 0.45
     cfg = {
         'prior_box': prior_box,
         'num_classes': num_classes,
         'extra': 2,
         'conf_thresh': conf_thresh,
-        'nms_thresh': nms_thresh
+        'nms_thresh': nms_thresh,
     }
 
     model = RDD(backbone(fetch_feature=True), cfg)
@@ -75,16 +79,25 @@ def main():
     for images, targets, infos in tqdm.tqdm(loader):
         images = images.cuda() / 255
         dets = model(images)
-        for target, det in zip(targets, dets):
+        for target, det, info in zip(targets, dets, infos):
             if target:
-                bboxes = target['bboxes'].numpy()
-                labels = target['labels'].numpy()
+                bboxes = np.stack([xy42xywha(bbox) for bbox in info['objs']['bboxes']])
+                labels = info['objs']['labels']
                 gt_list.extend([count, bbox, 1, label] for bbox, label in zip(bboxes, labels))
             if det:
+                ih, iw = info['shape'][:2]
                 bboxes, scores, labels = list(map(lambda x: x.cpu().numpy(), det))
+                bboxes = np.stack([xywha2xy4(bbox) for bbox in bboxes])
+                bboxes_ = bboxes * [iw / image_size, ih / image_size]
+                # bboxes = np.stack([xy42xywha(bbox) for bbox in bboxes_])
+                bboxes = []
+                for bbox in bboxes_.astype(np.float32):
+                    (x, y), (w, h), a = cv.minAreaRect(bbox)
+                    bboxes.append([x, y, w, h, a])
+                bboxes = np.array(bboxes)
                 det_list.extend([count, bbox, score, label] for bbox, score, label in zip(bboxes, scores, labels))
             count += 1
-    APs = get_det_aps(det_list, gt_list, num_classes)
+    APs = get_det_aps(det_list, gt_list, num_classes, use_07_metric=use_07_metric)
     mAP = sum(APs) / len(APs)
     print('AP')
     for label in range(num_classes):
@@ -94,12 +107,15 @@ def main():
 
 if __name__ == '__main__':
 
-    device_ids = [0, 1]
+    device_ids = [0]
     torch.cuda.set_device(device_ids[0])
-    backbone = resnet.resnet101
 
     dir_dataset = '<replace with your local path>'
     dir_save = '<replace with your local path>'
+
+    backbone = resnet.resnet101
     checkpoint = None
+    use_07_metric = False
+    old_version = False  # set True when using the original weights
 
     main()

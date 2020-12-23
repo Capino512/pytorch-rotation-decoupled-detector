@@ -24,7 +24,16 @@ def get_ap(recall, precision):
     return ap * 100
 
 
-def get_det_aps(detect, target, num_classes, iou_thresh=0.5):
+def get_ap_07(recall, precision):
+    ap = 0.
+    for t in np.linspace(0, 1, 11, endpoint=True):
+        mask = recall >= t
+        if np.any(mask):
+            ap += np.max(precision[mask]) / 11
+    return ap * 100
+
+
+def get_det_aps(detect, target, num_classes, iou_thresh=0.5, use_07_metric=False):
     # [[index, bbox, score, label], ...]
     aps = []
     for c in range(num_classes):
@@ -66,5 +75,5 @@ def get_det_aps(detect, target, num_classes, iou_thresh=0.5):
         npos = len(target_c)
         recall = tp_sum / npos
         precision = tp_sum / (tp_sum + fp_sum)
-        aps.append(get_ap(recall, precision))
+        aps.append((get_ap_07 if use_07_metric else get_ap)(recall, precision))
     return aps

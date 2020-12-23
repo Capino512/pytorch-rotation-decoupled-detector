@@ -55,15 +55,16 @@ def main():
         'sizes': [3] * 5,
         'aspects': [[1, 2, 4, 8]] * 5,
         'scales': [[2 ** 0, 2 ** (1 / 3), 2 ** (2 / 3)]] * 5,
+        'old_version': old_version
     }
     conf_thresh = 0.01
-    nms_thresh = 0.5
+    nms_thresh = 0.45
     cfg = {
         'prior_box': prior_box,
         'num_classes': num_classes,
         'extra': 2,
         'conf_thresh': conf_thresh,
-        'nms_thresh': nms_thresh
+        'nms_thresh': nms_thresh,
     }
 
     model = RDD(backbone(fetch_feature=True), cfg)
@@ -88,11 +89,11 @@ def main():
                 x, y, w, h = int(x), int(y), int(w), int(h)
                 long_edge = max(w, h)
                 pad_x, pad_y = (long_edge - w) // 2, (long_edge - h) // 2
-                bboxes = np.array([xywha2xy4(bbox) for bbox in bboxes])
+                bboxes = np.stack([xywha2xy4(bbox) for bbox in bboxes])
                 bboxes *= long_edge / image_size
                 bboxes -= [pad_x, pad_y]
                 bboxes += [x, y]
-                bboxes = np.array([xy42xywha(bbox) for bbox in bboxes])
+                bboxes = np.stack([xy42xywha(bbox) for bbox in bboxes])
                 ret_raw[fname].append([bboxes, scores, labels])
 
     print('merging results...')
@@ -125,13 +126,15 @@ def main():
 
 if __name__ == '__main__':
 
-    device_ids = [0, 1]
+    device_ids = [0]
     torch.cuda.set_device(device_ids[0])
-    backbone = resnet.resnet101
 
     dir_dataset = '<replace with your local path>'
     dir_save = '<replace with your local path>'
+
+    backbone = resnet.resnet101
     checkpoint = None
+    old_version = False  # set True when using the original weights
     image_set = 'test'  # test-768
 
     main()

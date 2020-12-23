@@ -13,6 +13,7 @@ import json
 import torch
 import numpy as np
 
+from copy import deepcopy
 from torch.utils.data import Dataset
 from utils.misc import convert_path
 from utils.image import imread
@@ -62,9 +63,9 @@ class DetDataset(Dataset):
         img_path, anno_path = self.dataset[index]
         img = imread(img_path, self.color_space)
         objs = self.load_objs(anno_path, self.name2label)
-        info = {'img_path': img_path, 'anno_path': anno_path, 'shape': img.shape}
+        info = {'img_path': img_path, 'anno_path': anno_path, 'shape': img.shape, 'objs': objs}
         if self.aug is not None:
-            img, objs = self.aug(img, objs)
+            img, objs = self.aug(img, deepcopy(objs))
         return img, objs, info
 
     @staticmethod

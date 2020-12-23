@@ -16,24 +16,59 @@ We optimized the anchor-based oriented object detection method by decoupling the
 
 ### DOTA1.0 (Task1)
 
+Reported in our paper:
+
 | backbone  | MS   | mAP   | PL    | BD    | BR    | GTF   | SV    | LV    | SH    | TC    | BC    | ST    | SBF   | RA    | HA    | SP    | HC    |
 | --------- | ---- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
 | ResNet101 | ×    | 75.52 | 89.7  | 84.33 | 46.35 | 68.62 | 73.89 | 73.19 | 86.92 | 90.41 | 86.46 | 84.3  | 64.22 | 64.95 | 73.55 | 72.59 | 73.31 |
 | ResNet101 | √    | 77.75 | 89.15 | 83.92 | 52.51 | 73.06 | 77.81 | 79    | 87.08 | 90.62 | 86.72 | 87.15 | 63.96 | 70.29 | 76.98 | 75.79 | 72.15 |
 
+Retested with the original weights and the newly released code:
+
+| backbone  | MS   | mAP   | PL    | BD    | BR    | GTF   | SV    | LV    | SH    | TC    | BC    | ST    | SBF   | RA    | HA    | SP    | HC    |
+| --------- | ---- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| ResNet101 | ×    | 75.02 | 89.61 | 82.01 | 43.35 | 64.79 | 74.10 | 77.54 | 87.11 | 90.84 | 87.15 | 84.80 | 61.52 | 62.22 | 74.49 | 72.57 | 73.13 |
+| ResNet101 | √    | 77.87 | 89.21 | 84.80 | 53.40 | 73.17 | 78.11 | 79.44 | 87.28 | 90.78 | 86.46 | 87.43 | 63.46 | 69.91 | 77.52 | 76.00 | 71.06 |
+
+Original weights: [resnet101](https://pan.baidu.com/s/1KppCwFpGT-x_BakpIw4KfA) (fetch code: l07k)
+
 ### HRSC2016
 
-| backbone  | AP    |
-| --------- | ----- |
-| ResNet101 | 94.29 |
-| ResNet152 | 94.61 |
+Reported in our paper:
+
+| backbone  | AP(12) |
+| --------- | ------ |
+| ResNet101 | 94.29  |
+| ResNet152 | 94.61  |
+
+*****Updated the test results obtained using the VOC 07 11 point method. Retested with the original weights and the newly released code:
+
+| backbone  | AP(12) | AP(07) |
+| --------- | ------ | ------ |
+| ResNet101 | 94.26  | 88.19  |
+| ResNet152 | 94.71  | 89.00  |
+
+ 07 or 12 means use the VOC 07 or VOC 12 evaluation metric.
+
+Original weights: [resnet101](https://pan.baidu.com/s/1TE98ntQFivqLpSi7PlofHw) (fetch code: ka71), [resnet152](https://pan.baidu.com/s/1Sp5PQoHLUT0jD5yUMDo73g) (fetch code: kin2)
 
 ### UCAS-AOD
+
+Reported in our paper:
 
 | backbone  | plane | car   | mAP   |
 | --------- | ----- | ----- | ----- |
 | ResNet101 | 98.86 | 94.96 | 96.86 |
 | ResNet152 | 98.85 | 95.18 | 97.01 |
+
+Retested with the original weights and the newly released code:
+
+| backbone  | plane | car   | mAP   |
+| --------- | ----- | ----- | ----- |
+| ResNet101 | 98.86 | 94.96 | 96.91 |
+| ResNet152 | 98.93 | 95.14 | 97.03 |
+
+Original weights: [resnet101](https://pan.baidu.com/s/1-w2QRXa_hhHPBkUSELbxPg) (fetch code: 2adc), [resnet152](https://pan.baidu.com/s/1cmkV40p0POBwsr0f1HZEBw) (fetch code: oxbo)
 
 ## Visualization
 
@@ -120,70 +155,23 @@ REPO_ROOT$ python run/dota/train.py
 REPO_ROOT$ python run/dota/evaluate.py
 ```
 
-#### Checkpoint
-
-[baiduyun](https://pan.baidu.com/s/1YrsWWbmk9M6fokDWbfSy3A) (fetch code: v9lc)
-
-DOTA Evaluation Results Feedback of Task1:
-
-```
-mAP: 0.7766109672861334
-ap of each class: 
-plane:0.8888609925261628, 
-baseball-diamond:0.8456303462596487, 
-bridge:0.5064668242818495, 
-ground-track-field:0.7351277450211415, 
-small-vehicle:0.7732537842825832, 
-large-vehicle:0.799801457421955, 
-ship:0.8712169619072521, 
-tennis-court:0.907144940135526, 
-basketball-court:0.8669519637928361, 
-storage-tank:0.8683680158282616, 
-soccer-ball-field:0.6389075531795416, 
-roundabout:0.6709768675043991, 
-harbor:0.770776576186568, 
-swimming-pool:0.7825762086410019, 
-helicopter:0.7231042723232747
-```
+Checkpoint: [resnet101](https://pan.baidu.com/s/1YrsWWbmk9M6fokDWbfSy3A) (fetch code: v9lc)
 
 ### Train on HRSC2016
 
 Similar to the steps on the DOTA dataset, the code is provided in `run/hrsc2016`.
 
-#### Checkpoint
-
-[baiduyun](https://pan.baidu.com/s/11gv3KZKMB4ZBkOaSygD3GA) (fetch code: 9vjf)
-
-Run `run/hrsc2016/evaluate.py` with setting `checkpoint` to the path where the file is placed, you should get the following output:
-
-```
-AP
-ship: 94.17826999090045
-mAP: 94.17826999090045
-```
+Checkpoint: [resnet101](https://pan.baidu.com/s/11gv3KZKMB4ZBkOaSygD3GA) (fetch code: 9vjf)
 
 ### Train on UCAS-AOD
 
 Similar to the steps on the DOTA dataset, the code is provided in `run/ucas-aod`.
 
-#### Checkpoint
-
-[baiduyun](https://pan.baidu.com/s/1sS5lc65F99lz7SmPMAw1uw) (fetch code: 1l2q)
-
-Run `run/ucas-aod/evaluate.py` with setting `checkpoint` to the path where the file is placed, you should get the following output:
-
-```
-AP:
-car: 95.17266104678446
-plane: 98.56249539995756
-mAP: 96.867578223371
-```
+Checkpoint: [resnet101](https://pan.baidu.com/s/1sS5lc65F99lz7SmPMAw1uw) (fetch code: 1l2q)
 
 ## To Do
 
-Update the test results of the HRSC2016 using VOC2007 evaluation metric.
-
-Thanks to [ming71](https://github.com/ming71) for reminding me that the comparison in our paper did not distinguish between VOC2007 and VOC2012 metric.
+Update the code used for detection.
 
 ## Citation
 

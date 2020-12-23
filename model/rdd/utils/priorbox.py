@@ -21,19 +21,23 @@ class PriorBox:
         self.prior_boxes = OrderedDict()
 
         for stride, size, aspects, scales in zip(cfg['strides'], cfg['sizes'], cfg['aspects'], cfg['scales']):
-            self.prior_boxes[stride] = self._get_prior_box(stride, size, aspects, scales)
+            self.prior_boxes[stride] = self._get_prior_box(stride, size, aspects, scales, cfg.get('old_version', False))
 
     @staticmethod
-    def _get_prior_box(stride, size, aspects, scales):
+    def _get_prior_box(stride, size, aspects, scales, old_version=False):
         boxes = []
-        for aspect in aspects:
-            for scale in scales:
-                length = stride * size * scale
-                if aspect == 1:
-                    boxes.append([length, length])
-                else:
-                    boxes.append([length * aspect ** 0.5, length / aspect ** 0.5])
-                    boxes.append([length / aspect ** 0.5, length * aspect ** 0.5])
+        if old_version:
+            # To be compatible with previous weights
+            pair = [[aspect, scale] for scale in scales for aspect in aspects]
+        else:
+            pair = [[aspect, scale] for aspect in aspects for scale in scales]
+        for aspect, scale in pair:
+            length = stride * size * scale
+            if aspect == 1:
+                boxes.append([length, length])
+            else:
+                boxes.append([length * aspect ** 0.5, length / aspect ** 0.5])
+                boxes.append([length / aspect ** 0.5, length * aspect ** 0.5])
         return boxes
 
     @staticmethod
