@@ -23,14 +23,20 @@ Reported in our paper:
 | ResNet101 | ×    | 75.52 | 89.7  | 84.33 | 46.35 | 68.62 | 73.89 | 73.19 | 86.92 | 90.41 | 86.46 | 84.3  | 64.22 | 64.95 | 73.55 | 72.59 | 73.31 |
 | ResNet101 | √    | 77.75 | 89.15 | 83.92 | 52.51 | 73.06 | 77.81 | 79    | 87.08 | 90.62 | 86.72 | 87.15 | 63.96 | 70.29 | 76.98 | 75.79 | 72.15 |
 
-Retested with the original weights and the newly released code:
+Retested with the **original** weights and the **newly** released code:
 
 | backbone  | MS   | mAP   | PL    | BD    | BR    | GTF   | SV    | LV    | SH    | TC    | BC    | ST    | SBF   | RA    | HA    | SP    | HC    |
 | --------- | ---- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
 | ResNet101 | ×    | 75.02 | 89.61 | 82.01 | 43.35 | 64.79 | 74.10 | 77.54 | 87.11 | 90.84 | 87.15 | 84.80 | 61.52 | 62.22 | 74.49 | 72.57 | 73.13 |
 | ResNet101 | √    | 77.87 | 89.21 | 84.80 | 53.40 | 73.17 | 78.11 | 79.44 | 87.28 | 90.78 | 86.46 | 87.43 | 63.46 | 69.91 | 77.52 | 76.00 | 71.06 |
 
-Original weights: [resnet101](https://pan.baidu.com/s/1KppCwFpGT-x_BakpIw4KfA) (fetch code: l07k)
+Checkpoint:
+
+- [Baidu Drive (l07k)](https://pan.baidu.com/s/1KppCwFpGT-x_BakpIw4KfA) (resnet101, original)
+- [Baidu Drive (v9lc)](https://pan.baidu.com/s/1YrsWWbmk9M6fokDWbfSy3A) (resnet101, newly)
+
+- [Google Drive](https://drive.google.com/file/d/1_QfLJMusMIsdDUpQzqwUCUyBT6N15HvJ/view?usp=sharing) (resnet101, original)
+- [Google Drive](https://drive.google.com/drive/folders/1aJ0lfPo-Zqh4g5kf8sXTNIzTLyjVsdLO?usp=sharing) (resnet101, newly)
 
 ### HRSC2016
 
@@ -50,7 +56,15 @@ Reported in our paper:
 
  07 or 12 means use the VOC 07 or VOC 12 evaluation metric.
 
-Original weights: [resnet101](https://pan.baidu.com/s/1TE98ntQFivqLpSi7PlofHw) (fetch code: ka71), [resnet152](https://pan.baidu.com/s/1Sp5PQoHLUT0jD5yUMDo73g) (fetch code: kin2)
+Checkpoint:
+
+- [Baidu Drive (ka71)](https://pan.baidu.com/s/1TE98ntQFivqLpSi7PlofHw) (resnet101, original)
+- [Baidu Drive (kin2)](https://pan.baidu.com/s/1Sp5PQoHLUT0jD5yUMDo73g) (resnet152, original)
+- [Baidu Drive (9vjf)](https://pan.baidu.com/s/11gv3KZKMB4ZBkOaSygD3GA) (resnet101, newly)
+
+- [Google Drive](https://drive.google.com/file/d/1EqH8Ipb9Haa8Rcn0dlZCP3klKaWG990y/view?usp=sharing) (resnet101, original)
+- [Google Drive](https://drive.google.com/file/d/1it-7n7oGZeFHuUa8GZqbljLxLqUvgaSb/view?usp=sharing) (resnet152, original)
+- [Google Drive](https://drive.google.com/drive/folders/1i2rHVYQswf4c-iUiIjfj3WKUcDhJS7qS?usp=sharing) (resnet101, newly)
 
 ### UCAS-AOD
 
@@ -68,7 +82,15 @@ Retested with the original weights and the newly released code:
 | ResNet101 | 98.86 | 94.96 | 96.91 |
 | ResNet152 | 98.93 | 95.14 | 97.03 |
 
-Original weights: [resnet101](https://pan.baidu.com/s/1-w2QRXa_hhHPBkUSELbxPg) (fetch code: 2adc), [resnet152](https://pan.baidu.com/s/1cmkV40p0POBwsr0f1HZEBw) (fetch code: oxbo)
+Checkpoint:
+
+- [Baidu Drive (2adc)](https://pan.baidu.com/s/1-w2QRXa_hhHPBkUSELbxPg) (resnet101, original)
+- [Baidu Drive (oxbo)](https://pan.baidu.com/s/1cmkV40p0POBwsr0f1HZEBw) (resnet152, original)
+- [Baidu Drive (1l2q)](https://pan.baidu.com/s/1sS5lc65F99lz7SmPMAw1uw) (resnet101, newly)
+
+- [Google Drive](https://drive.google.com/file/d/1HjdK5tXhRQ-wAkBmdJ5KaJRhoqmCELoB/view?usp=sharing) (resnet101, original)
+- [Google Drive](https://drive.google.com/file/d/1zr5tFDHxHIIU7vlsCvBgVmV8IkH591O5/view?usp=sharing) (resnet152, original)
+- [Google Drive](https://drive.google.com/drive/folders/1OBNjd-1I9AO0alKtYnoR_4rlDse3lVj4?usp=sharing) (resnet101, newly)
 
 ## Visualization
 
@@ -105,7 +127,13 @@ python setup.py build_ext --inplace
 
 ###  Pre-training Weight
 
-Download pretrained weight  files from [baiduyun](https://pan.baidu.com/s/1u9i3giU5Q-7XAF_rkyL8Bw ) (fetch code: 4m2c). Modify the `DIR_WEIGHT` defined in `config/__init__.py` to be the directory where the weight files are placed.
+Download pretrained weight  files. 
+
+- [Baidu Drive (4m2c)](https://pan.baidu.com/s/1u9i3giU5Q-7XAF_rkyL8Bw)
+
+- [Google Drive](https://drive.google.com/drive/folders/1ll4DxqkIa77tBq3H59cdv_ziAfYO8ek7?usp=sharing)
+
+Modify the `DIR_WEIGHT` defined in `config/__init__.py` to be the directory where the weight files are placed.
 
 ```
 DIR_WEIGHT = /.../pre-training-weights
@@ -155,19 +183,13 @@ REPO_ROOT$ python run/dota/train.py
 REPO_ROOT$ python run/dota/evaluate.py
 ```
 
-Checkpoint: [resnet101](https://pan.baidu.com/s/1YrsWWbmk9M6fokDWbfSy3A) (fetch code: v9lc)
-
 ### Train on HRSC2016
 
 Similar to the steps on the DOTA dataset, the code is provided in `run/hrsc2016`.
 
-Checkpoint: [resnet101](https://pan.baidu.com/s/11gv3KZKMB4ZBkOaSygD3GA) (fetch code: 9vjf)
-
 ### Train on UCAS-AOD
 
 Similar to the steps on the DOTA dataset, the code is provided in `run/ucas-aod`.
-
-Checkpoint: [resnet101](https://pan.baidu.com/s/1sS5lc65F99lz7SmPMAw1uw) (fetch code: 1l2q)
 
 ## To Do
 
